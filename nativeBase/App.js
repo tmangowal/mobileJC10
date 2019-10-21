@@ -1,10 +1,27 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, FlatList } from 'react-native';
 import { Grid, Row, Col, Content, Container, Header, Input, H1, Button } from 'native-base'
 
 export default function App() {
 
   const [input, setInput] = useState('')
+  const [data, setData] = useState([])
+
+  const Item = (itemProp) => {
+    return (
+      <View style={{
+        flexDirection : 'row',
+        justifyContent : 'space-around'
+      }}>
+        <Text style={{color : 'white'}}>{itemProp.text}</Text>
+        <Button danger onPress={() => setData(data.filter(val => val.key != itemProp.barang))}>
+          <Text style={{color : 'white'}}>
+            Delete
+          </Text>
+        </Button>
+      </View>
+    )
+  }
 
   return (
     <View style={{
@@ -36,9 +53,16 @@ export default function App() {
           style={{
             borderWidth : 1,
             borderBottomColor : 'lightgrey',
-            marginRight : 15
+            marginRight : 15,
+            color : 'white'
           }} />
-          <Button light style={{padding : 5}}>
+          <Button onPress={() => {
+            setData([...data, {
+              key : Date.now().toString(),
+              value : input
+            }])}
+          }
+          light style={{padding : 5}}>
             <Text>Add New</Text>
           </Button>
         </View>
@@ -55,14 +79,13 @@ export default function App() {
             textAlign : 'center'
           }}>
             TODO GOES HERE!
-            {input}
           </Text>
         </View>
         <View style={{
-          flex : 9,
-          // backgroundColor : 'white'
+          flex : 9
         }}>
-
+          {/* {renderData()} */}
+          <FlatList data={data} renderItem={({item}) => <Item barang={item.key} text={item.value} />} />
         </View>
       </View>
     </View>
