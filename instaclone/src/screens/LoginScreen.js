@@ -1,34 +1,24 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Alert, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import { Input, Button, Grid, Col, Row, H1 } from 'native-base'
 import firebase from 'firebase'
 
-const RegisterScreen = props => {
-    const [username, setUsername] = useState('')
+const LoginScreen = props => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [repPassword, setRepPassword] = useState('')
 
-    const onRegister = () => {
-        if((password === repPassword) && password && repPassword && username && email) {
-            firebase.auth().createUserWithEmailAndPassword(email, password)
+    const onLogin = () => {
+        if(password && email) {
+            firebase.auth().signInWithEmailAndPassword(email, password)
             .then(user => {
-                console.log(user.user.uid)
-                const uid = user.user.uid
-                firebase.database().ref(`/users/${uid}`)
-                .set({
-                    username,
-                    email,
-                    password
-                })
-                .then(() => Alert.alert('Register Success!'))
-                .catch(() => Alert.alert('Register Failed'))
+                Alert.alert('Success', 'You are now logged in')
             })
             .catch(err => {
+                console.log(err)
                 Alert.alert('Firebase Auth Failed')
             })
         }else {
-            Alert.alert('Error!', 'Password and repeat password not identical!')
+            Alert.alert('Error!', 'Please fill in the form')
         }
     }
 
@@ -57,20 +47,14 @@ const RegisterScreen = props => {
                                 <Input onChangeText={text => setEmail(text)} placeholder='Email' />
                             </View>
                             <View style={{...styles.inputRounded}}>
-                                <Input onChangeText={text => setUsername(text)} placeholder='Username' />
-                            </View>
-                            <View style={{...styles.inputRounded}}>
                                 <Input secureTextEntry={ true } onChangeText={text => setPassword(text)} placeholder='Password' />
-                            </View>
-                            <View style={{...styles.inputRounded}}>
-                                <Input secureTextEntry={ true } onChangeText={text => setRepPassword(text)} placeholder='Repeat Password' />
                             </View>
                         </Col>
                     </Row>
                     <Col size={1} style={{
                         alignItems: 'center'
                     }}>
-                        <Button onPress={onRegister} rounded style={{
+                        <Button onPress={onLogin} rounded style={{
                             backgroundColor : '#cae9f5',
                             paddingHorizontal : 50,
                             paddingVertical : 10
@@ -79,7 +63,7 @@ const RegisterScreen = props => {
                                 color : 'black',
                                 alignSelf : 'center'
                             }}>
-                                Register
+                                Login
                             </Text>
                         </Button>
                     </Col>
@@ -98,8 +82,10 @@ const styles = StyleSheet.create({
         borderTopStartRadius : 50,
         paddingLeft : 20,
         marginVertical : 10,
-        flex : 1
+        // flex : 1
+        height : 60,
+        width : '100%'
     }
 })
 
-export default RegisterScreen
+export default LoginScreen

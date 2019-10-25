@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import firebase from 'firebase'
 import RegisterScreen from './src/screens/RegisterScreen';
+import LoginScreen from './src/screens/LoginScreen'
+import MainSwitchNavigator from './src/navigators/MainSwitchNavigator';
+
 
 
 export default function App() {
@@ -19,9 +22,7 @@ export default function App() {
     firebase.initializeApp(firebaseConfig);
 
   return (
-    <View style={styles.container}>
-      <RegisterScreen />
-    </View>
+      <MainSwitchNavigator />
   );
 }
 
