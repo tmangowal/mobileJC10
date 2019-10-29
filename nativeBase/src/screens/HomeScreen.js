@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, Text } from 'react-native'
-import { Button } from 'native-base'
+import { Button, Input } from 'native-base'
 
 const HomeScreen = (props) => {
+    const [number, setNumber] = useState('')
     return (
         <View style={{
             flexDirection : 'column',
@@ -13,7 +14,8 @@ const HomeScreen = (props) => {
             <Text style={{fontSize: 36, color: 'red'}}>
                 Home Screen
             </Text>
-            <Button primary onPress={() => props.navigation.navigate('Stack1Screen')}>
+            <Input placeholder="Input Number" onChangeText={num => setNumber(num)}/>
+            <Button primary onPress={() => props.navigation.navigate('ParamScreen', {number})}>
                 <Text>Go To Stack 1</Text>
             </Button>
         </View>

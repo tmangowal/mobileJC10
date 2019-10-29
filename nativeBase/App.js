@@ -10,6 +10,7 @@ import AppNavigator from './src/navigators/AppNavigator'
 
 export default function App() {
   const store = createStore(Reducers, {}, applyMiddleware(ReduxThunk))
+  console.ignoredYellowBox
   return (
     <Provider store={store} >
       <AppNavigator />

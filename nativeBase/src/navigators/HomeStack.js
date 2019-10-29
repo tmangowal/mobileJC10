@@ -3,10 +3,16 @@ import { createStackNavigator } from 'react-navigation-stack'
 import HomeScreen from '../screens/HomeScreen'
 import Stack1Screen from '../screens/Stack1Screen'
 import Stack2Screen from '../screens/Stack2Screen'
+import ParamScreen from '../screens/ParamScreen'
 
 const HomeStack = createStackNavigator({
-    HomeScreen,
-    Stack1Screen,
+    Home : {
+        screen : HomeScreen,
+        navigationOptions : {
+            header : null
+        }
+    },
+    ParamScreen,
     Stack2Screen
 })
 
